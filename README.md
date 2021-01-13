@@ -31,5 +31,5 @@ python3 hungry.py
 ```
 
 ## Authors and acknowledgment
-KHYATTI ALI
+KHYATTI ALI &&
 EL GHAZI ILYASS
