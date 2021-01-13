@@ -33,3 +33,6 @@ python3 hungry.py
 ## Authors and acknowledgment
 KHYATTI ALI &&
 EL GHAZI ILYASS
+
+## License
+[GNU](https://www.gnu.org/licenses/why-not-lgpl.html)
