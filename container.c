@@ -30,7 +30,7 @@ int child(void *args)
         mount("proc", "/proc", "proc", 0, NULL);
         sleep(1);
 
-        printf ("Child network ... \n");
+        printf ("Child (new) network Namespace ... \n");
         system("ip link");
         sleep(1);
 
@@ -47,24 +47,31 @@ int child(void *args)
 int main(int argc, char const *argv[])
 {
     // Flags Description :
-    // CLONE_NEWUTS : creer un nv processus au sein d'un nv ns uts namespace isolu
+    // CLONE_NEWUTS : Creer un nouveu processus au sein d'un nouveu uts namespace isolu
     // porte les memes identificateurs du systeme (hostname + NIS domain name)
-    // CLONE_NEWPID : creer un nv processus au sein d'un nv ns pid ( diffrents processus dans differents nv peut avoir le meme pid)
-    // CLONE_NEWIPC : creer un nv processus au sein d'un nv ns IPC ( isoler l'inter process communication )
-    // CLONE_NEWNS : creer un nv processus au sein d'un nv ns ( mount space )
-    // CLONE_NEWNET : creer un nv processus au sein d'un nv ns ( isolution du reseau)
-    int namespaces = CLONE_NEWUTS|CLONE_NEWPID|CLONE_NEWIPC|CLONE_NEWNS|CLONE_NEWNET;
+    // CLONE_NEWPID : Creer un nouveu processus au sein d'un nouveu pid namespace ( diffrents processus dans differents nv peut avoir le meme pid)
+    // CLONE_NEWIPC : Creer un nouveu processus au sein d'un nouveu IPC namespace ( isoler l'inter process communication )
+    // CLONE_NEWNS : Creer un nouveu processus au sein d'un nouveu namespace ( mount space )
+    // CLONE_NEWNET : Creer un nouveu processus au sein d'un nouveu Network namespace ( isolution du reseau)
+    // SIGCHLD
+    int flags = CLONE_NEWUTS|CLONE_NEWPID|CLONE_NEWIPC|CLONE_NEWNS|CLONE_NEWNET;
     char cmd[200];
 
     hostname = malloc(30*sizeof(hostname));
     strcpy(hostname, argv[1]);
     
-    pid_t pid = clone(child, malloc(4096) + 4096, SIGCHLD|namespaces, NULL);
+     printf("Original (parent) Network Namespace:\n");
+     system("ip link");
+     printf("\n\n");
+    
+    
+    pid_t pid = clone(child, malloc(4096) + 4096, SIGCHLD|flags, NULL);
     if (pid == -1) {
         perror("clone");
         exit(1);
     }
-    printf("\nchild pid outside: %d.\n\n", pid);
+    
+    printf("\nChild pid outside: %d.\n\n", pid);
     
     system(" cgcreate -g memory:KH_GH_shell");
     
