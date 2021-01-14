@@ -4,16 +4,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <string.h>
 
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <sys/mount.h>
 
-
+char *hostname;
 int child(void *args)
 {
-    char hostname[20] = "KHYATTI&ELGHAZI";
+    // char hostname[20] = "KHYATTI&ELGHAZI";
+
     printf("child pid inside: %d.\n", getpid());
     printf("parent pid inside: %d.\n", getppid());
     sleep(1);
@@ -21,32 +23,28 @@ int child(void *args)
     char cwd[255];
     if(getcwd(cwd, sizeof(cwd))!= NULL){
         sethostname(hostname,sizeof(hostname));
-        printf ("processing");
-       /* for (int i = 0 ; i<4 ; i++) {
-            printf (".");
-            sleep(2);
-            if (i==3) printf (".\n");
-        }*/
-        printf ("pwd = %s \n", cwd);
+        printf ("processing...");
+        printf ("cwd = %s \n\n", cwd);
         chroot(cwd);
         chdir("/");
         mount("proc", "/proc", "proc", 0, NULL);
         sleep(1);
-        printf ("configuring network ... \n");
+
+        printf ("Child network ... \n");
         system("ip link");
         sleep(1);
-        printf("executing new bash ...\n");
-        sleep(1);
-        printf("container started. \n");
-        //system("bash");
+
+        printf("\n\n\nexecuting new bash ...\n");
         execlp("/bin/bash", "/bin/bash" , NULL);
+        sleep(1);
+        printf("\ncontainer started. \n\n");
     }else{
         perror("getcwd() error");
         return 1;
     }   
 }
 
-int main()
+int main(int argc, char const *argv[])
 {
     // Flags Description :
     // CLONE_NEWUTS : creer un nv processus au sein d'un nv ns uts namespace isolu
@@ -57,18 +55,21 @@ int main()
     // CLONE_NEWNET : creer un nv processus au sein d'un nv ns ( isolution du reseau)
     int namespaces = CLONE_NEWUTS|CLONE_NEWPID|CLONE_NEWIPC|CLONE_NEWNS|CLONE_NEWNET;
     char cmd[200];
+
+    hostname = malloc(30*sizeof(hostname));
+    strcpy(hostname, argv[1]);
     
     pid_t pid = clone(child, malloc(4096) + 4096, SIGCHLD|namespaces, NULL);
     if (pid == -1) {
         perror("clone");
         exit(1);
     }
-    printf("child pid outside: %d.\n", pid);
+    printf("\nchild pid outside: %d.\n\n", pid);
     
-    system(" cgcreate -g memory:KHGH_shell");
+    system(" cgcreate -g memory:KH_GH_shell");
     
-    system(" echo 50M > /sys/fs/cgroup/memory/KHGH_shell/memory.limit_in_bytes");
-    sprintf(cmd,"sudo echo %d  > /sys/fs/cgroup/memory/KHGH_shell/cgroup.procs",pid);
+    system(" echo 50M > /sys/fs/cgroup/memory/KH_GH_shell/memory.limit_in_bytes");
+    sprintf(cmd,"sudo echo %d  > /sys/fs/cgroup/memory/KH_GH_shell/cgroup.procs",pid);
      
     system(cmd);
     
