@@ -9,7 +9,7 @@ sudo apt-get install libcgroup1 cgroup-tools
 Then run and execute the container.c file using the following commands
 ```bash
 gcc -o container container.c
-sudo ./container
+sudo ./container hostname # hostname is an Argument
 ```
 if you dont have gcc installed run the following commands
 ```bash
