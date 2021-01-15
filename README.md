@@ -41,9 +41,14 @@ Or you can run the python script hungry.py using the following command
 python3 hungry.py
 ```
 
+NB: Sometimes the memory can exceed the limits because the swap memory not set to 0, to fix this problem run the following command
+
+```bash
+sudo echo 0 > /sys/fs/cgroup/memory/your_new_cgroup/memory.swappiness
+```
+
 ## Authors and acknowledgment
 KHYATTI ALI &&
 EL GHAZI ILYASS
 
-## License
-[GNU](https://www.gnu.org/licenses/why-not-lgpl.html)
+
