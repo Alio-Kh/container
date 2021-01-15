@@ -25,7 +25,7 @@ sudo ./container hostname # hostname is an Argument
 if you dont have gcc installed run the following commands
 ```bash
 sudo apt update
-sudo apt install build-essential
+sudo apt install gcc
 ```
 
 ## Test your Container
