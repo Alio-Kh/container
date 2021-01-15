@@ -30,7 +30,7 @@ sudo apt install build-essential
 
 ## Test your Container
 #### Memory limit test
-For testing the momory limit of your container you can run and execute hungry.c file in the the container's shell 
+For testing the memory limit of your container you can run and execute hungry.c file in the the container's shell 
 ```bash
 gcc -o hungry hungry.c
 ./hungry
