@@ -29,26 +29,23 @@ int child(void *args)
         printf ("cwd = %s \n\n", cwd);
         
         // Change the root directory of the container (child process) to the current working directory
-        if(chroot(cwd)){
-            chdir("/");
-            // Attach the (kernel) /proc file system to proc directory of new container, with proc as filesystem type 
-            mount("proc", "/proc", "proc", 0, NULL);
-            sleep(1);
+        chroot(cwd);
+	chdir("/");
+	// Attach the (kernel) /proc file system to proc directory of new container, with proc as filesystem type 
+	mount("proc", "/proc", "proc", 0, NULL);
+	sleep(1);
 
-            // Shows the network device configuration of the child process
-            printf ("Child (new) network Namespace ... \n");
-            system("ip link");
-            sleep(1);
+	// Shows the network device configuration of the child process
+	printf ("Child (new) network Namespace ... \n");
+	system("ip link");
+	sleep(1);
 
-            printf("\n\n\n executing new bash ...\n");
-            // Execute a new bash for  the container 
-            execlp("/bin/bash", "/bin/bash" , NULL);
-            sleep(1);
-            printf("\ncontainer started. \n\n");
-        }else {
-                perror("getcwd() error");
-                return 1;
-        }
+	printf("\n\n\n executing new bash ...\n");
+	// Execute a new bash for  the container 
+	execlp("/bin/bash", "/bin/bash" , NULL);
+	sleep(1);
+	printf("\ncontainer started. \n\n");
+        
     }else{
         perror("getcwd() error");
         return 1;
