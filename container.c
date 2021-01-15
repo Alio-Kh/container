@@ -47,12 +47,12 @@ int child(void *args)
 int main(int argc, char const *argv[])
 {
     // Flags Description :
-    // CLONE_NEWUTS : Creer un nouveu processus au sein d'un nouveu uts namespace isolu
-    // porte les memes identificateurs du systeme (hostname + NIS domain name)
-    // CLONE_NEWPID : Creer un nouveu processus au sein d'un nouveu pid namespace ( diffrents processus dans differents nv peut avoir le meme pid)
-    // CLONE_NEWIPC : Creer un nouveu processus au sein d'un nouveu IPC namespace ( isoler l'inter process communication )
-    // CLONE_NEWNS : Creer un nouveu processus au sein d'un nouveu namespace ( mount space )
-    // CLONE_NEWNET : Creer un nouveu processus au sein d'un nouveu Network namespace ( isolution du reseau)
+    // CLONE_NEWUTS : Create a new process in a new isolated uts namespace
+    // has the same system identifiers (hostname + NIS domain name)
+    // CLONE_NEWPID : Create a new process in a new pid namespace (different processes in different new can have the same pid)
+    // CLONE_NEWIPC : Create a new process in a new IPC namespace (isolate inter process communication)
+    // CLONE_NEWNS : Create a new process within a new namespace (mount space)
+    // CLONE_NEWNET : Create a new process within a new Network namespace (network isolution)
     // SIGCHLD
     int flags = CLONE_NEWUTS|CLONE_NEWPID|CLONE_NEWIPC|CLONE_NEWNS|CLONE_NEWNET;
     char cmd[200];
