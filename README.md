@@ -1,5 +1,5 @@
 # Container
-This is a very simple container made using C language 
+This is a very simple container made using C language and based on  Namespaces and Cgourps
 
 ## Instalation 
 You need to install a Cgroup tool before 
