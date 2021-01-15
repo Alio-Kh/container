@@ -55,6 +55,7 @@ int child(void *args)
 int main(int argc, char const *argv[])
 {
     // Flags Description :
+    // To create a child process in a new namespace and isolated resources we need to use one or more of the following flags :
     // CLONE_NEWUTS : Create a new process in a new isolated uts namespace
     // has the same system identifiers (hostname + NIS domain name)
     // CLONE_NEWPID : Create a new process in a new pid namespace (different processes in different new can have the same pid)
