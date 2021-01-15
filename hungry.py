@@ -1,11 +1,8 @@
-fichier = open("/dev/urandom", encoding="utf8", errors='ignore')
-data = ""
+import sys
 
 i=0
+s = ""
 while True:
-	data += fichier.read(1000000) # 1kb 
-	#if (i%2) == 0:
+	s += "!" * 1000000
 	i += 1 
-	print(str(i*10) + "mb")
-	#s += "!" * 1000000 * 10
-		
+	print(str(len(s)/1000000) + "Mo is Allocated")
