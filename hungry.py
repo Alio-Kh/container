@@ -7,4 +7,5 @@ while True:
 	#if (i%2) == 0:
 	i += 1 
 	print(str(i*10) + "mb")
+	#s += "!" * 1000000 * 10
 		
